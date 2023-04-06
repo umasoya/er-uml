@@ -1,0 +1,7 @@
+# driver type [mysql/postgresql]
+Driver: mysql
+User: umasoya
+Password:
+Host: 127.0.0.1
+# connection port (default: 3306)
+Port: 3306
