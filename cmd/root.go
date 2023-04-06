@@ -39,16 +39,10 @@ func initConfig() {
 		// Use config file from the flag.
 		viper.SetConfigFile(cfgFile)
 	} else {
-		// Find home directory.
-		home, err := os.UserHomeDir()
-		cobra.CheckErr(err)
-
-		// Search config in home directory with name ".er-uml" (without extension).
+		// Search config in working directory with name "er-uml" (without extension).
 		viper.AddConfigPath(".") // working dir
-		viper.AddConfigPath(home)
 		viper.SetConfigType("yaml")
 		viper.SetConfigName("er-uml")
-		viper.SetConfigName(".er-uml")
 	}
 
 	viper.AutomaticEnv() // read in environment variables that match
