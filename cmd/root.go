@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/umasoya/er-uml/pkg/config"
+	"github.com/umasoya/er-uml/pkg/connection"
 )
 
 var cfgFile string
@@ -16,7 +17,19 @@ var rootCmd = &cobra.Command{
 	Short: "ER-diagrams generator",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Printf("configFile: %s\nconfig: %#v\n", cfgFile, config.Conf)
+		// fmt.Printf("configFile: %s\nconfig: %#v\n", cfgFile, config.Conf)
+
+		// db connection open
+		db, err := connection.Open(&config.Conf)
+		if err != nil {
+			// @todo error handling
+			panic(err)
+		}
+
+		err = db.Ping()
+		if err != nil {
+			panic(err)
+		}
 	},
 }
 

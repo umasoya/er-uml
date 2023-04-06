@@ -11,3 +11,6 @@ User: umasoya
 Host: 127.0.0.1
 # connection port (default: 3306)
 Port: 3306
+
+# target DB
+Db: test
