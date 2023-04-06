@@ -1,7 +1,13 @@
 # driver type [mysql/postgresql]
 Driver: mysql
+
+# connection user (default: root)
 User: umasoya
-Password:
+
+# [recommended] Setting a value for the PASSWORD environment
+# Password:
+
+# connection host (default: localhost)
 Host: 127.0.0.1
 # connection port (default: 3306)
 Port: 3306

@@ -1,7 +1,7 @@
 package config
 
 type Config struct {
-	Schema   string `env:"SCHEMA"`
+	Driver   string `env:"Driver"   envDefault:"mysql"`
 	User     string `env:"USER"     envDefault:"root"`
 	Password string `env:"PASSWORD" envDefault:"password"`
 	Host     string `env:"HOST"     envDefault:"localhost"`
