@@ -1,7 +1,6 @@
-package mysql
+package connection
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 
@@ -9,38 +8,13 @@ import (
 	"github.com/umasoya/er-uml/pkg/config"
 )
 
-var Tables []Table
-var Db *sql.DB
+type mysqlConn struct{}
 
-type Table struct {
-	Name    string
-	Columns []Column
-}
-
-type Column struct {
-	Field   string
-	Type    string
-	Null    string
-	Key     string
-	Default string
-	Extra   string
-}
-
-// open db connection
-func open(conf *config.Config) error {
-	var err error = nil
-	Db, err = sql.Open("mysql", conf.Dsn())
-	return err
-}
-
-// close db connection
-func close() error {
-	return Db.Close()
-}
+var mysql mysqlConn
 
 // get tables name
-func getTables() error {
-	result, err := Db.Query("SHOW TABLES")
+func (conn *mysqlConn) getTables() error {
+	result, err := db.Query("SHOW TABLES")
 	if err != nil {
 		return err
 	}
@@ -52,10 +26,11 @@ func getTables() error {
 	return nil
 }
 
-func getColumns() error {
+// get columns detail
+func (conn *mysqlConn) getColumns() error {
 	for i, table := range Tables {
 		// Parameter binding does not work??
-		rows, err := Db.Query("SHOW COLUMNS FROM " + table.Name)
+		rows, err := db.Query("SHOW COLUMNS FROM " + table.Name)
 		if err != nil {
 			return err
 		}
@@ -75,7 +50,8 @@ func getColumns() error {
 	return nil
 }
 
-func dump() {
+// Dump thw schema in json
+func (conn *mysqlConn) dump() {
 	json, err := json.MarshalIndent(Tables, "", "  ")
 	if err != nil {
 		panic(err)
@@ -83,7 +59,7 @@ func dump() {
 	fmt.Printf("%s\n", json)
 }
 
-func Run() error {
+func (conn *mysqlConn) Run() error {
 	// connection open
 	if err := open(&config.Conf); err != nil {
 		return err
@@ -92,16 +68,16 @@ func Run() error {
 	// connection close
 	defer close()
 
-	if err := getTables(); err != nil {
+	if err := mysql.getTables(); err != nil {
 		return err
 	}
 
-	if err := getColumns(); err != nil {
+	if err := mysql.getColumns(); err != nil {
 		return err
 	}
 
 	// print debug
-	dump()
+	mysql.dump()
 
 	return nil
 }

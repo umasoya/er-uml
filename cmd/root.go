@@ -8,7 +8,8 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"github.com/umasoya/er-uml/pkg/config"
-	"github.com/umasoya/er-uml/pkg/mysql"
+	"github.com/umasoya/er-uml/pkg/connection"
+	// "github.com/umasoya/er-uml/pkg/mysql"
 )
 
 const (
@@ -25,13 +26,19 @@ var rootCmd = &cobra.Command{
 	Short: "ER-diagrams generator",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		switch config.Conf.Driver {
-		case "mysql":
-			if err := mysql.Run(); err != nil {
-				panic(err)
+		/*
+			switch config.Conf.Driver {
+			case "mysql":
+				if err := mysql.Run(); err != nil {
+					panic(err)
+				}
+			default:
+				panic("unsupport driver: " + config.Conf.Driver)
 			}
-		default:
-			panic("unsupport driver: " + config.Conf.Driver)
+		*/
+		fmt.Printf("%#v\n", config.Conf)
+		if err := connection.Execute(&config.Conf); err != nil {
+			panic(err)
 		}
 	},
 }
