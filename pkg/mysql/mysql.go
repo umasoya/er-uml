@@ -18,14 +18,12 @@ type Table struct {
 }
 
 type Column struct {
-	Field string
-	Type  string
-	NULL  bool
-	Extra []Extra
-}
-
-type Extra struct {
-	AutoIncrement bool
+	Field   string
+	Type    string
+	Null    string
+	Key     string
+	Default string
+	Extra   string
 }
 
 // open db connection
@@ -54,6 +52,29 @@ func getTables() error {
 	return nil
 }
 
+func getColumns() error {
+	for i, table := range Tables {
+		// Parameter binding does not work??
+		rows, err := Db.Query("SHOW COLUMNS FROM " + table.Name)
+		if err != nil {
+			return err
+		}
+		for rows.Next() {
+			var col Column
+			rows.Scan(
+				&col.Field,
+				&col.Type,
+				&col.Null,
+				&col.Key,
+				&col.Default,
+				&col.Extra,
+			)
+			Tables[i].Columns = append(Tables[i].Columns, col)
+		}
+	}
+	return nil
+}
+
 func dump() {
 	json, err := json.MarshalIndent(Tables, "", "  ")
 	if err != nil {
@@ -72,6 +93,10 @@ func Run() error {
 	defer close()
 
 	if err := getTables(); err != nil {
+		return err
+	}
+
+	if err := getColumns(); err != nil {
 		return err
 	}
 

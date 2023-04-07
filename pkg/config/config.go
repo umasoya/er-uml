@@ -16,5 +16,5 @@ type Config struct {
 var Conf Config
 
 func (c Config) Dsn() string {
-	return fmt.Sprintf("%s:%s@(%s:%s)/%s", c.User, c.Password, c.Host, c.Port, c.Db)
+	return fmt.Sprintf("%s:%s@(%s:%s)/%s?interpolateParams=true", c.User, c.Password, c.Host, c.Port, c.Db)
 }
