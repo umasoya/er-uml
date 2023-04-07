@@ -26,17 +26,6 @@ var rootCmd = &cobra.Command{
 	Short: "ER-diagrams generator",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		/*
-			switch config.Conf.Driver {
-			case "mysql":
-				if err := mysql.Run(); err != nil {
-					panic(err)
-				}
-			default:
-				panic("unsupport driver: " + config.Conf.Driver)
-			}
-		*/
-		fmt.Printf("%#v\n", config.Conf)
 		if err := connection.Execute(&config.Conf); err != nil {
 			panic(err)
 		}
