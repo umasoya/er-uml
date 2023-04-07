@@ -1,16 +1,16 @@
 # driver type [mysql/postgresql]
-Driver: mysql
+DRIVER: mysql
 
 # connection user (default: root)
-User: umasoya
+USER: sample1_user
 
-# [recommended] Setting a value for the PASSWORD environment
+# [recommended] Setting a value for the ER_PASSWORD environment
 # Password:
 
 # connection host (default: localhost)
-Host: 127.0.0.1
+HOST: 127.0.0.1
 # connection port (default: 3306)
-Port: 3306
+PORT: 3306
 
 # target DB
-Db: test
+DB: sample1

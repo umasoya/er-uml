@@ -3,6 +3,7 @@ module github.com/umasoya/er-uml
 go 1.20
 
 require (
+	github.com/caarlos0/env v3.5.0+incompatible // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
 	github.com/go-sql-driver/mysql v1.7.0 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
